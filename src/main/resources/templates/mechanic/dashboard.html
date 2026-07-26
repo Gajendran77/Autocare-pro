@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Mechanic Dashboard')}"></head>
+<body>
+<div th:replace="~{fragments/loading :: loading}"></div>
+<div th:replace="~{fragments/mechanic-sidebar :: sidebar('dashboard')}"></div>
+
+<main class="main-content">
+    <div th:replace="~{fragments/topbar :: topbar('Assigned Jobs')}"></div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-icon icon-cyan"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                <div class="stat-value" th:data-counter="${#lists.size(activeJobs)}">0</div>
+                <div class="stat-label">Active Jobs</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-icon icon-green"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="stat-value" th:data-counter="${#lists.size(completedJobs)}">0</div>
+                <div class="stat-label">Completed Jobs</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-icon icon-blue"><i class="fa-solid fa-list-check"></i></div>
+                <div class="stat-value" th:data-counter="${#lists.size(jobs)}">0</div>
+                <div class="stat-label">Total Assigned</div>
+            </div>
+        </div>
+    </div>
+
+    <h5 class="font-display fw-bold mb-3">Your Jobs</h5>
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4" th:each="job : ${jobs}">
+            <a th:href="@{'/mechanic/jobs/' + ${job.id}}" class="text-decoration-none">
+                <div class="vehicle-card">
+                    <img th:src="${job.vehicleType.name() == 'CAR'} ? 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=700&q=80' : (${job.vehicleType.name() == 'BIKE'} ? 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=700&q=80' : 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=700&q=80')" alt="Vehicle">
+                    <div class="vehicle-body">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <h6 class="fw-bold mb-0" th:text="${job.brand + ' ' + job.model}">BMW 3 Series</h6>
+                            <span class="status-pill" th:classappend="'status-' + ${#strings.toLowerCase(job.status)}" th:text="${job.status}">ASSIGNED</span>
+                        </div>
+                        <p class="text-secondary small mb-1" th:text="${job.bookingCode}">ACP-100001</p>
+                        <p class="text-secondary small mb-2" th:text="${job.problemDescription}">Engine oil change</p>
+                        <div class="progress-premium"><div class="bar" th:style="'width:' + ${job.progressPercent} + '%'"></div></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12" th:if="${#lists.isEmpty(jobs)}">
+            <div class="glass-card text-center py-5 text-secondary">No jobs assigned to you yet.</div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

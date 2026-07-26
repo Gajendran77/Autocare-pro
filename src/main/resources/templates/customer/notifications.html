@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Notifications')}"></head>
+<body>
+<div th:replace="~{fragments/loading :: loading}"></div>
+<div th:replace="~{fragments/customer-sidebar :: sidebar('notifications')}"></div>
+
+<main class="main-content">
+    <div th:replace="~{fragments/topbar :: topbar('Notifications')}"></div>
+
+    <div class="glass-card p-0 overflow-hidden">
+        <div th:each="n : ${notifications}" class="d-flex align-items-start gap-3 p-4" style="border-bottom: 1px solid var(--border-glass);">
+            <div class="stat-icon icon-blue" style="width:44px;height:44px;">
+                <i class="fa-solid" th:classappend="${n.type == 'SUCCESS'} ? 'fa-circle-check' : (${n.type == 'BOOKING'} ? 'fa-calendar-check' : 'fa-circle-info')"></i>
+            </div>
+            <div class="flex-grow-1">
+                <p class="mb-1" th:text="${n.message}">Notification message</p>
+                <span class="text-muted small" th:text="${n.createdAt}">2026-07-24</span>
+            </div>
+        </div>
+        <div th:if="${#lists.isEmpty(notifications)}" class="text-center text-secondary py-5">
+            <i class="fa-solid fa-bell-slash fs-1 mb-3 d-block"></i>
+            No notifications yet.
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<aside xmlns:th="http://www.thymeleaf.org" th:fragment="sidebar(active)" class="sidebar">
+    <a th:href="@{/}" class="brand-logo d-block mb-4 px-2"><i class="fa-solid fa-car-side me-1"></i> AutoCare Pro</a>
+    <div class="px-2 mb-3">
+        <span class="badge-premium"><i class="fa-solid fa-shield-halved"></i> Admin Panel</span>
+    </div>
+    <nav>
+        <a th:href="@{/admin/dashboard}" th:classappend="${active == 'dashboard'} ? 'active'" class="sidebar-link">
+            <i class="fa-solid fa-gauge-high"></i> Dashboard
+        </a>
+        <a th:href="@{/admin/bookings}" th:classappend="${active == 'bookings'} ? 'active'" class="sidebar-link">
+            <i class="fa-solid fa-calendar-check"></i> Bookings
+        </a>
+        <a th:href="@{/admin/customers}" th:classappend="${active == 'customers'} ? 'active'" class="sidebar-link">
+            <i class="fa-solid fa-users"></i> Customers
+        </a>
+        <a th:href="@{/admin/mechanics}" th:classappend="${active == 'mechanics'} ? 'active'" class="sidebar-link">
+            <i class="fa-solid fa-user-gear"></i> Mechanics
+        </a>
+        <a th:href="@{/admin/inventory}" th:classappend="${active == 'inventory'} ? 'active'" class="sidebar-link">
+            <i class="fa-solid fa-boxes-stacked"></i> Inventory
+        </a>
+        <a th:href="@{/admin/payments}" th:classappend="${active == 'payments'} ? 'active'" class="sidebar-link">
+            <i class="fa-solid fa-credit-card"></i> Payments
+        </a>
+        <hr class="divider-glow my-3">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="sidebar-link border-0 bg-transparent w-100 text-start">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+        </form>
+    </nav>
+</aside>

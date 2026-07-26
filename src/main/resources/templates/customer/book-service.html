@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Book Service')}"></head>
+<body>
+<div th:replace="~{fragments/loading :: loading}"></div>
+<div th:replace="~{fragments/customer-sidebar :: sidebar('book')}"></div>
+
+<main class="main-content">
+    <div th:replace="~{fragments/topbar :: topbar('Book a Service')}"></div>
+
+    <div th:if="${success}" class="alert alert-success glass-card border-0 mb-4">
+        <i class="fa-solid fa-circle-check me-2"></i>
+        Booking confirmed! Your reference code is <strong th:text="${bookingCode}"></strong>. We'll notify you once a mechanic is assigned.
+    </div>
+
+    <!-- Vehicle type selector -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <label class="w-100" style="cursor:pointer;">
+                <input type="radio" name="vehicleTypeSelector" value="CAR" class="d-none vehicle-type-radio" checked>
+                <div class="category-card" style="height:200px;" data-type-card="CAR">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=700&q=80" alt="Car">
+                    <div class="category-body">
+                        <div class="category-icon"><i class="fa-solid fa-car"></i></div>
+                        <h6 class="fw-bold text-white mb-0">Car</h6>
+                    </div>
+                </div>
+            </label>
+        </div>
+        <div class="col-md-4">
+            <label class="w-100" style="cursor:pointer;">
+                <input type="radio" name="vehicleTypeSelector" value="BIKE" class="d-none vehicle-type-radio">
+                <div class="category-card" style="height:200px;" data-type-card="BIKE">
+                    <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=700&q=80" alt="Bike">
+                    <div class="category-body">
+                        <div class="category-icon"><i class="fa-solid fa-motorcycle"></i></div>
+                        <h6 class="fw-bold text-white mb-0">Bike</h6>
+                    </div>
+                </div>
+            </label>
+        </div>
+        <div class="col-md-4">
+            <label class="w-100" style="cursor:pointer;">
+                <input type="radio" name="vehicleTypeSelector" value="TRUCK" class="d-none vehicle-type-radio">
+                <div class="category-card" style="height:200px;" data-type-card="TRUCK">
+                    <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=700&q=80" alt="Truck">
+                    <div class="category-body">
+                        <div class="category-icon"><i class="fa-solid fa-truck"></i></div>
+                        <h6 class="fw-bold text-white mb-0">Truck</h6>
+                    </div>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <!-- Booking Form -->
+    <div class="glass-card p-4 p-md-5">
+        <h5 class="font-display fw-bold mb-4">Service Details</h5>
+        <form th:action="@{/customer/book-service}" th:object="${bookingRequest}" method="post" novalidate>
+            <input type="hidden" th:field="*{vehicleType}" id="vehicleTypeInput" value="CAR">
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label-premium">Owner Name</label>
+                    <input type="text" th:field="*{ownerName}" class="form-control form-control-glass" required>
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('ownerName')}" th:errors="*{ownerName}"></div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-premium">Phone Number</label>
+                    <input type="text" th:field="*{phone}" class="form-control form-control-glass" required>
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-premium">Vehicle Number</label>
+                    <input type="text" th:field="*{vehicleNumber}" class="form-control form-control-glass" placeholder="e.g. DL01AB1234" required>
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('vehicleNumber')}" th:errors="*{vehicleNumber}"></div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label-premium">Brand</label>
+                    <input type="text" th:field="*{brand}" class="form-control form-control-glass" required>
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label-premium">Model</label>
+                    <input type="text" th:field="*{model}" class="form-control form-control-glass" required>
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label-premium">Year</label>
+                    <input type="number" th:field="*{year}" class="form-control form-control-glass" min="1980" max="2026">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label-premium">Preferred Date</label>
+                    <input type="date" th:field="*{preferredDate}" class="form-control form-control-glass" required>
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('preferredDate')}" th:errors="*{preferredDate}"></div>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <div class="form-check ps-0">
+                        <div class="form-check form-switch ms-1">
+                            <input class="form-check-input" type="checkbox" th:field="*{pickupRequired}" id="pickupSwitch">
+                            <label class="form-check-label text-secondary" for="pickupSwitch">Pickup Required</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label-premium">Problem Description</label>
+                    <textarea th:field="*{problemDescription}" rows="4" class="form-control form-control-glass" placeholder="Describe the issue or service needed..."></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-gradient w-100 py-2 mt-4">
+                <i class="fa-solid fa-calendar-check me-2"></i>Confirm Booking
+            </button>
+        </form>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+<script>
+    document.querySelectorAll('.vehicle-type-radio').forEach(radio => {
+        radio.addEventListener('change', () => {
+            document.getElementById('vehicleTypeInput').value = radio.value;
+            document.querySelectorAll('[data-type-card]').forEach(card => card.style.outline = 'none');
+            radio.closest('label').querySelector('[data-type-card]').style.outline = '3px solid var(--blue-400)';
+        });
+    });
+    // initialize default outline
+    document.querySelector('.vehicle-type-radio:checked').closest('label').querySelector('[data-type-card]').style.outline = '3px solid var(--blue-400)';
+</script>
+</body>
+</html>

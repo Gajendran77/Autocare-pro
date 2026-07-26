@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Customer Dashboard')}"></head>
+<body>
+<div th:replace="~{fragments/loading :: loading}"></div>
+<div th:replace="~{fragments/customer-sidebar :: sidebar('dashboard')}"></div>
+
+<main class="main-content">
+    <div th:replace="~{fragments/topbar :: topbar('My Dashboard')}"></div>
+
+    <p class="text-secondary mb-4">Welcome back, <strong th:text="${user.fullName}">Customer</strong>. Here's what's happening with your vehicles.</p>
+
+    <!-- Stat Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-6 col-lg-3 fade-up">
+            <div class="stat-card">
+                <div class="stat-icon icon-cyan"><i class="fa-solid fa-gauge"></i></div>
+                <div class="stat-value" th:data-counter="${stats.activeServices}">0</div>
+                <div class="stat-label">Active Services</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3 fade-up">
+            <div class="stat-card">
+                <div class="stat-icon icon-green"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="stat-value" th:data-counter="${stats.completedServices}">0</div>
+                <div class="stat-label">Completed Services</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3 fade-up">
+            <div class="stat-card">
+                <div class="stat-icon icon-gold"><i class="fa-solid fa-calendar-days"></i></div>
+                <div class="stat-value" th:data-counter="${stats.upcomingAppointments}">0</div>
+                <div class="stat-label">Upcoming Appointments</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3 fade-up">
+            <div class="stat-card">
+                <div class="stat-icon icon-blue"><i class="fa-solid fa-car"></i></div>
+                <div class="stat-value" th:data-counter="${stats.totalVehicles}">0</div>
+                <div class="stat-label">Total Vehicles</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row g-3 mb-5">
+        <div class="col-6 col-lg-3">
+            <a th:href="@{/customer/book-service}" class="glass-card d-block text-center py-4 text-decoration-none">
+                <i class="fa-solid fa-calendar-plus fs-3 mb-2 d-block" style="color: var(--blue-400);"></i>
+                <span class="fw-semibold">Book Service</span>
+            </a>
+        </div>
+        <div class="col-6 col-lg-3">
+            <a th:href="@{/customer/track-service}" class="glass-card d-block text-center py-4 text-decoration-none">
+                <i class="fa-solid fa-location-crosshairs fs-3 mb-2 d-block" style="color: var(--accent-cyan);"></i>
+                <span class="fw-semibold">Track Service</span>
+            </a>
+        </div>
+        <div class="col-6 col-lg-3">
+            <a th:href="@{/customer/history}" class="glass-card d-block text-center py-4 text-decoration-none">
+                <i class="fa-solid fa-clock-rotate-left fs-3 mb-2 d-block" style="color: var(--accent-gold);"></i>
+                <span class="fw-semibold">View History</span>
+            </a>
+        </div>
+        <div class="col-6 col-lg-3">
+            <a th:href="@{/customer/history}" class="glass-card d-block text-center py-4 text-decoration-none">
+                <i class="fa-solid fa-file-invoice fs-3 mb-2 d-block" style="color: var(--success);"></i>
+                <span class="fw-semibold">Download Invoice</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- My Vehicles -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="font-display fw-bold mb-0">My Vehicles</h5>
+        <a th:href="@{/customer/vehicles}" class="small text-decoration-none" style="color: var(--blue-400);">View All <i class="fa-solid fa-arrow-right ms-1"></i></a>
+    </div>
+    <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-4" th:each="v : ${vehicles}">
+            <div class="vehicle-card">
+                <img th:src="${v.imageUrl}" alt="Vehicle">
+                <div class="vehicle-body">
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+                        <h6 class="fw-bold mb-0" th:text="${v.brand + ' ' + v.model}">BMW 3 Series</h6>
+                        <span class="status-pill status-completed" th:text="${v.status}">ACTIVE</span>
+                    </div>
+                    <p class="text-secondary small mb-1"><i class="fa-solid fa-hashtag me-1"></i><span th:text="${v.registrationNumber}"></span></p>
+                    <p class="text-secondary small mb-1"><i class="fa-solid fa-gas-pump me-1"></i><span th:text="${v.fuelType}"></span></p>
+                    <p class="text-secondary small mb-0"><i class="fa-solid fa-calendar me-1"></i>Service due: <span th:text="${v.nextServiceDue}"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12" th:if="${#lists.isEmpty(vehicles)}">
+            <div class="glass-card text-center py-5">
+                <i class="fa-solid fa-car fs-1 text-secondary mb-3 d-block"></i>
+                <p class="text-secondary mb-3">You haven't registered any vehicles yet.</p>
+                <a th:href="@{/customer/vehicles}" class="btn btn-gradient">Add a Vehicle</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Bookings -->
+    <h5 class="font-display fw-bold mb-3">Recent Bookings</h5>
+    <div class="glass-card p-0 overflow-hidden">
+        <table class="table table-borderless mb-0 align-middle">
+            <thead>
+            <tr class="text-secondary small">
+                <th class="ps-4">Booking</th>
+                <th>Vehicle</th>
+                <th>Preferred Date</th>
+                <th>Status</th>
+                <th class="pe-4">Progress</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b : ${recentBookings}">
+                <td class="ps-4" th:text="${b.bookingCode}">ACP-100001</td>
+                <td th:text="${b.brand + ' ' + b.model}">BMW 3 Series</td>
+                <td th:text="${b.preferredDate}">2026-07-24</td>
+                <td><span class="status-pill" th:classappend="'status-' + ${#strings.toLowerCase(b.status)}" th:text="${b.status}">PENDING</span></td>
+                <td class="pe-4" style="width:160px;">
+                    <div class="progress-premium"><div class="bar" th:style="'width:' + ${b.progressPercent} + '%'"></div></div>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(recentBookings)}">
+                <td colspan="5" class="text-center text-secondary py-4">No bookings yet. Book your first service today!</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

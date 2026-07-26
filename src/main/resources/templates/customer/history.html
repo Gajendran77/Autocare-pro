@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Service History')}"></head>
+<body>
+<div th:replace="~{fragments/loading :: loading}"></div>
+<div th:replace="~{fragments/customer-sidebar :: sidebar('history')}"></div>
+
+<main class="main-content">
+    <div th:replace="~{fragments/topbar :: topbar('Service History')}"></div>
+
+    <div class="glass-card p-0 overflow-hidden">
+        <table class="table table-borderless mb-0 align-middle">
+            <thead>
+            <tr class="text-secondary small">
+                <th class="ps-4">Booking</th>
+                <th>Vehicle</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Cost</th>
+                <th class="pe-4 text-end">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b : ${bookings}">
+                <td class="ps-4" th:text="${b.bookingCode}">ACP-100001</td>
+                <td th:text="${b.brand + ' ' + b.model + ' (' + b.vehicleNumber + ')'}">BMW 3 Series</td>
+                <td th:text="${b.preferredDate}">2026-07-24</td>
+                <td><span class="status-pill" th:classappend="'status-' + ${#strings.toLowerCase(b.status)}" th:text="${b.status}">COMPLETED</span></td>
+                <td th:text="${b.finalCost != null ? '₹' + b.finalCost : (b.estimatedCost != null ? '₹' + b.estimatedCost + ' (est.)' : '—')}">₹4,500</td>
+                <td class="pe-4 text-end">
+                    <a th:href="@{'/api/invoices/' + ${b.id} + '/pdf'}" class="btn btn-sm btn-outline-glass me-1" title="Download Invoice">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </a>
+                    <a th:href="@{'/api/bookings/' + ${b.id} + '/qrcode'}" target="_blank" class="btn btn-sm btn-outline-glass" title="QR Service Record">
+                        <i class="fa-solid fa-qrcode"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(bookings)}">
+                <td colspan="6" class="text-center text-secondary py-4">No service history yet.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

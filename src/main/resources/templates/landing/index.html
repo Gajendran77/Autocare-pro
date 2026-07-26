@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Premium Vehicle Service')}"></head>
+<body>
+
+<div th:replace="~{fragments/loading :: loading}"></div>
+<nav th:replace="~{fragments/public-navbar :: navbar}"></nav>
+
+<!-- HERO -->
+<section class="hero-section">
+    <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1920&q=80');"></div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+        <div class="row">
+            <div class="col-lg-7">
+                <span class="badge-premium mb-4"><i class="fa-solid fa-circle-check text-cyan" style="color:var(--accent-cyan)"></i> Trusted by 25,000+ vehicle owners</span>
+                <h1 class="hero-title mb-4">
+                    Precision Service. <br>
+                    <span class="gradient-text">Engineered for Excellence.</span>
+                </h1>
+                <p class="hero-subtitle mb-4">
+                    AutoCare Pro brings dealership-grade diagnostics, certified mechanics, and real-time
+                    service tracking to your cars, bikes, and trucks — all from one premium platform.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a th:href="@{/register}" class="btn btn-gradient btn-lg px-4"><i class="fa-solid fa-calendar-check me-2"></i>Book Service</a>
+                    <a th:href="@{/login}" class="btn btn-outline-glass btn-lg px-4"><i class="fa-solid fa-right-to-bracket me-2"></i>Login</a>
+                    <a th:href="@{/register}" class="btn btn-outline-glass btn-lg px-4"><i class="fa-solid fa-user-plus me-2"></i>Register</a>
+                </div>
+
+                <div class="row mt-5 pt-3">
+                    <div class="col-4">
+                        <div class="stat-value font-display fw-bold fs-2" data-counter="25000">0</div>
+                        <div class="text-secondary small">Happy Customers</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-value font-display fw-bold fs-2" data-counter="180">0</div>
+                        <div class="text-secondary small">Certified Mechanics</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-value font-display fw-bold fs-2" data-counter="98">0</div>
+                        <div class="text-secondary small">% Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICE CATEGORIES -->
+<section id="services" class="py-5" style="background: var(--bg-secondary);">
+    <div class="container py-5">
+        <div class="text-center mb-5 fade-up">
+            <span class="section-eyebrow">What We Service</span>
+            <h2 class="font-display fw-bold display-6 mt-2">Every Vehicle. One Premium Standard.</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4 fade-up">
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80" alt="Car Service">
+                    <div class="category-body">
+                        <div class="category-icon"><i class="fa-solid fa-car"></i></div>
+                        <h4 class="font-display fw-bold text-white">Car Service</h4>
+                        <p class="text-white-50 small mb-3">Full diagnostics, engine tuning, brakes, and detailing for sedans, SUVs, and luxury cars.</p>
+                        <a th:href="@{/register}" class="btn btn-gradient btn-sm">Book Service <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fade-up">
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=900&q=80" alt="Bike Service">
+                    <div class="category-body">
+                        <div class="category-icon"><i class="fa-solid fa-motorcycle"></i></div>
+                        <h4 class="font-display fw-bold text-white">Bike Service</h4>
+                        <p class="text-white-50 small mb-3">Performance tuning and precision care for superbikes, cruisers, and everyday commuters.</p>
+                        <a th:href="@{/register}" class="btn btn-gradient btn-sm">Book Service <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fade-up">
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=900&q=80" alt="Truck Service">
+                    <div class="category-body">
+                        <div class="category-icon"><i class="fa-solid fa-truck"></i></div>
+                        <h4 class="font-display fw-bold text-white">Truck Service</h4>
+                        <p class="text-white-50 small mb-3">Heavy-duty maintenance, fleet servicing, and suspension work for commercial vehicles.</p>
+                        <a th:href="@{/register}" class="btn btn-gradient btn-sm">Book Service <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHY US -->
+<section id="about" class="py-5" style="background: var(--bg-primary);">
+    <div class="container py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 fade-up">
+                <img src="https://images.unsplash.com/photo-1632823471565-1ecdf7c8b118?auto=format&fit=crop&w=1000&q=80"
+                     class="img-fluid rounded-4 shadow-lg" alt="Service bay" style="border-radius: var(--radius-lg);">
+            </div>
+            <div class="col-lg-6 fade-up">
+                <span class="section-eyebrow">Why AutoCare Pro</span>
+                <h2 class="font-display fw-bold display-6 mt-2 mb-4">A Service Experience Built Like a Premium Vehicle</h2>
+                <div class="d-flex gap-3 mb-4">
+                    <div class="stat-icon icon-blue"><i class="fa-solid fa-location-crosshairs"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Live Service Tracking</h6>
+                        <p class="text-secondary small mb-0">Watch your vehicle's repair progress update in real time, from check-in to hand-back.</p>
+                    </div>
+                </div>
+                <div class="d-flex gap-3 mb-4">
+                    <div class="stat-icon icon-cyan"><i class="fa-solid fa-file-invoice"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Digital Invoicing & QR History</h6>
+                        <p class="text-secondary small mb-0">Download PDF invoices instantly and scan a QR code for your full service history.</p>
+                    </div>
+                </div>
+                <div class="d-flex gap-3">
+                    <div class="stat-icon icon-gold"><i class="fa-solid fa-user-shield"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Certified Mechanics Only</h6>
+                        <p class="text-secondary small mb-0">Every technician on our platform is vetted, trained, and rated by real customers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5" style="background: var(--gradient-primary);">
+    <div class="container py-5 text-center fade-up">
+        <h2 class="font-display fw-bold display-6 mb-3">Ready for a Service Experience That Matches Your Vehicle?</h2>
+        <p class="text-secondary mb-4">Join thousands of drivers who trust AutoCare Pro for premium, transparent servicing.</p>
+        <a th:href="@{/register}" class="btn btn-gradient btn-lg px-5">Get Started <i class="fa-solid fa-arrow-right ms-2"></i></a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact" class="py-5" style="background: var(--bg-secondary); border-top: 1px solid var(--border-glass);">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <span class="brand-logo"><i class="fa-solid fa-car-side me-1"></i>AutoCare Pro</span>
+                <p class="text-secondary small mt-3">Premium vehicle service management for cars, bikes, and trucks — engineered for modern drivers.</p>
+            </div>
+            <div class="col-md-2">
+                <h6 class="fw-bold mb-3">Company</h6>
+                <a href="#about" class="d-block text-secondary small mb-2">About</a>
+                <a href="#services" class="d-block text-secondary small mb-2">Services</a>
+                <a href="#contact" class="d-block text-secondary small mb-2">Contact</a>
+            </div>
+            <div class="col-md-3">
+                <h6 class="fw-bold mb-3">Support</h6>
+                <span class="d-block text-secondary small mb-2"><i class="fa-solid fa-phone me-2"></i>+91 98765 43210</span>
+                <span class="d-block text-secondary small mb-2"><i class="fa-solid fa-envelope me-2"></i>support@autocarepro.com</span>
+            </div>
+            <div class="col-md-3">
+                <h6 class="fw-bold mb-3">Follow Us</h6>
+                <div class="d-flex gap-2">
+                    <a href="#" class="theme-toggle-btn"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="theme-toggle-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="theme-toggle-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="divider-glow">
+        <p class="text-center text-muted small mb-0">&copy; 2026 AutoCare Pro. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

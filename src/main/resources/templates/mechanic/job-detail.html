@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Job Detail')}"></head>
+<body>
+<div th:replace="~{fragments/loading :: loading}"></div>
+<div th:replace="~{fragments/mechanic-sidebar :: sidebar('dashboard')}"></div>
+
+<main class="main-content">
+    <div th:replace="~{fragments/topbar :: topbar('Job Detail — ' + ${booking.bookingCode})}"></div>
+
+    <div class="row g-4">
+        <!-- Vehicle info -->
+        <div class="col-lg-4">
+            <div class="glass-card mb-4">
+                <h6 class="fw-bold mb-3">Vehicle Information</h6>
+                <p class="small text-secondary mb-1"><strong class="text-white" th:text="${booking.brand + ' ' + booking.model}">BMW 3 Series</strong></p>
+                <p class="small text-secondary mb-1"><i class="fa-solid fa-hashtag me-2"></i><span th:text="${booking.vehicleNumber}"></span></p>
+                <p class="small text-secondary mb-1"><i class="fa-solid fa-user me-2"></i><span th:text="${booking.ownerName}"></span></p>
+                <p class="small text-secondary mb-1"><i class="fa-solid fa-phone me-2"></i><span th:text="${booking.phone}"></span></p>
+                <p class="small text-secondary mb-3"><i class="fa-solid fa-note-sticky me-2"></i><span th:text="${booking.problemDescription}"></span></p>
+                <span class="status-pill" th:classappend="'status-' + ${#strings.toLowerCase(booking.status)}" th:text="${booking.status}">ASSIGNED</span>
+            </div>
+
+            <div class="glass-card">
+                <h6 class="fw-bold mb-3">Update Progress</h6>
+                <form th:action="@{'/mechanic/jobs/' + ${booking.id} + '/progress'}" method="post">
+                    <label class="form-label-premium">Progress: <span id="progressLabel" th:text="${booking.progressPercent}">0</span>%</label>
+                    <input type="range" class="form-range mb-3" name="percent" min="0" max="100" th:value="${booking.progressPercent}"
+                           oninput="document.getElementById('progressLabel').textContent = this.value">
+                    <label class="form-label-premium">Service Notes</label>
+                    <textarea name="notes" rows="3" class="form-control form-control-glass mb-3" th:text="${booking.serviceNotes}"></textarea>
+                    <button type="submit" class="btn btn-gradient w-100"><i class="fa-solid fa-floppy-disk me-2"></i>Save Update</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Checklist + Images -->
+        <div class="col-lg-8">
+            <div class="glass-card mb-4">
+                <h6 class="fw-bold mb-3">Repair Checklist</h6>
+                <div th:each="item : ${checklist}" class="d-flex align-items-center gap-3 mb-2 p-2" style="border-bottom: 1px solid var(--border-glass);">
+                    <form th:action="@{'/mechanic/checklist/' + ${item.id} + '/toggle'}" method="post">
+                        <input type="hidden" name="bookingId" th:value="${booking.id}">
+                        <button type="submit" class="btn btn-sm" th:classappend="${item.completed} ? 'btn-gradient' : 'btn-outline-glass'">
+                            <i class="fa-solid" th:classappend="${item.completed} ? 'fa-check' : 'fa-clock'"></i>
+                        </button>
+                    </form>
+                    <span th:text="${item.description}" th:style="${item.completed} ? 'text-decoration: line-through; color: var(--text-muted);' : ''">Checklist item</span>
+                </div>
+                <div th:if="${#lists.isEmpty(checklist)}" class="text-secondary small mb-3">No checklist items yet. Add one below.</div>
+
+                <form th:action="@{'/mechanic/jobs/' + ${booking.id} + '/checklist'}" method="post" class="d-flex gap-2 mt-3">
+                    <input type="text" name="description" class="form-control form-control-glass" placeholder="Add checklist item (e.g. Replace brake pads)" required>
+                    <button type="submit" class="btn btn-outline-glass"><i class="fa-solid fa-plus"></i></button>
+                </form>
+            </div>
+
+            <div class="glass-card">
+                <h6 class="fw-bold mb-3">Before / After Photos</h6>
+                <div class="row g-3 mb-3">
+                    <div class="col-4" th:each="img : ${images}">
+                        <div class="position-relative">
+                            <img th:src="${img.imageUrl}" class="img-fluid rounded-3" style="height:120px; width:100%; object-fit:cover;">
+                            <span class="status-pill status-pending position-absolute" style="top:6px; left:6px;" th:text="${img.type}">BEFORE</span>
+                        </div>
+                    </div>
+                    <div class="col-12" th:if="${#lists.isEmpty(images)}">
+                        <p class="text-secondary small mb-0">No photos uploaded yet.</p>
+                    </div>
+                </div>
+
+                <form th:action="@{'/mechanic/jobs/' + ${booking.id} + '/upload'}" method="post" enctype="multipart/form-data" class="row g-2 align-items-end">
+                    <div class="col-md-5">
+                        <label class="form-label-premium">Photo</label>
+                        <input type="file" name="file" class="form-control form-control-glass" accept="image/*" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label-premium">Type</label>
+                        <select name="type" class="form-select form-select-glass">
+                            <option value="BEFORE">Before</option>
+                            <option value="AFTER">After</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-gradient w-100"><i class="fa-solid fa-upload me-2"></i>Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<nav xmlns:th="http://www.thymeleaf.org" th:fragment="navbar" class="navbar navbar-expand-lg navbar-glass fixed-top">
+    <div class="container">
+        <a class="navbar-brand brand-logo" th:href="@{/}">
+            <i class="fa-solid fa-car-side me-1"></i> AutoCare Pro
+        </a>
+        <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <i class="fa-solid fa-bars text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link nav-link-premium" th:href="@{/#services}">Services</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-premium" th:href="@{/#about}">About</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-premium" th:href="@{/#contact}">Contact</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-2">
+                <button class="theme-toggle-btn"><i class="fa-solid fa-sun"></i></button>
+                <a th:href="@{/login}" class="btn btn-outline-glass btn-sm px-3">Login</a>
+                <a th:href="@{/register}" class="btn btn-gradient btn-sm px-3">Register</a>
+            </div>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Something Went Wrong')}"></head>
+<body>
+<div class="d-flex align-items-center justify-content-center" style="min-height:100vh; background: var(--gradient-primary);">
+    <div class="glass-card text-center p-5" style="max-width:480px;">
+        <i class="fa-solid fa-triangle-exclamation fs-1 mb-3 d-block" style="color: var(--warning);"></i>
+        <h3 class="font-display fw-bold mb-2">Oops, something went wrong</h3>
+        <p class="text-secondary mb-4" th:text="${message}">An unexpected error occurred.</p>
+        <a href="/" class="btn btn-gradient px-4">Return Home</a>
+    </div>
+</div>
+</body>
+</html>

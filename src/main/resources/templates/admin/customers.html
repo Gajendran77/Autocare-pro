@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Manage Customers')}"></head>
+<body>
+<div th:replace="~{fragments/loading :: loading}"></div>
+<div th:replace="~{fragments/admin-sidebar :: sidebar('customers')}"></div>
+
+<main class="main-content">
+    <div th:replace="~{fragments/topbar :: topbar('Customers')}"></div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4" th:each="c : ${customers}">
+            <div class="glass-card">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="avatar-circle" th:text="${c.fullName.substring(0,1).toUpperCase()}">A</div>
+                    <div>
+                        <h6 class="fw-bold mb-0" th:text="${c.fullName}">Rohan Sharma</h6>
+                        <span class="text-secondary small" th:text="${c.email}">rohan@example.com</span>
+                    </div>
+                </div>
+                <p class="text-secondary small mb-1"><i class="fa-solid fa-phone me-2"></i><span th:text="${c.phone}"></span></p>
+                <p class="text-secondary small mb-3"><i class="fa-solid fa-calendar me-2"></i>Joined <span th:text="${c.createdAt}"></span></p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="status-pill" th:classappend="${c.enabled} ? 'status-completed' : 'status-cancelled'" th:text="${c.enabled} ? 'Active' : 'Disabled'">Active</span>
+                    <form th:action="@{'/admin/users/' + ${c.id} + '/toggle'}" method="post">
+                        <input type="hidden" name="redirect" value="/admin/customers">
+                        <button type="submit" class="btn btn-sm btn-outline-glass" th:text="${c.enabled} ? 'Disable' : 'Enable'"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-12" th:if="${#lists.isEmpty(customers)}">
+            <div class="glass-card text-center py-5 text-secondary">No customers registered yet.</div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

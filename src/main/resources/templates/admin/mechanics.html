@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Manage Mechanics')}"></head>
+<body>
+<div th:replace="~{fragments/loading :: loading}"></div>
+<div th:replace="~{fragments/admin-sidebar :: sidebar('mechanics')}"></div>
+
+<main class="main-content">
+    <div th:replace="~{fragments/topbar :: topbar('Mechanics')}"></div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4" th:each="m : ${mechanics}">
+            <div class="glass-card">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="avatar-circle" th:text="${m.fullName.substring(0,1).toUpperCase()}">V</div>
+                    <div>
+                        <h6 class="fw-bold mb-0" th:text="${m.fullName}">Vikram Singh</h6>
+                        <span class="text-secondary small" th:text="${m.email}">vikram@example.com</span>
+                    </div>
+                </div>
+                <p class="text-secondary small mb-1"><i class="fa-solid fa-phone me-2"></i><span th:text="${m.phone}"></span></p>
+                <p class="text-secondary small mb-3"><i class="fa-solid fa-screwdriver-wrench me-2"></i>
+                    <span th:text="${m.specialization != null ? m.specialization : 'General Service'}"></span>
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="status-pill" th:classappend="${m.enabled} ? 'status-completed' : 'status-cancelled'" th:text="${m.enabled} ? 'Active' : 'Disabled'">Active</span>
+                    <form th:action="@{'/admin/users/' + ${m.id} + '/toggle'}" method="post">
+                        <input type="hidden" name="redirect" value="/admin/mechanics">
+                        <button type="submit" class="btn btn-sm btn-outline-glass" th:text="${m.enabled} ? 'Disable' : 'Enable'"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-12" th:if="${#lists.isEmpty(mechanics)}">
+            <div class="glass-card text-center py-5 text-secondary">No mechanics registered yet.</div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

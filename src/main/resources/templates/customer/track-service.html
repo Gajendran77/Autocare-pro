@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Track Service')}"></head>
+<body>
+<div th:replace="~{fragments/loading :: loading}"></div>
+<div th:replace="~{fragments/customer-sidebar :: sidebar('track')}"></div>
+
+<main class="main-content">
+    <div th:replace="~{fragments/topbar :: topbar('Track Service')}"></div>
+
+    <div class="row g-4">
+        <div class="col-lg-6" th:each="b : ${bookings}">
+            <div class="glass-card h-100">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <h6 class="fw-bold mb-1" th:text="${b.brand + ' ' + b.model}">BMW 3 Series</h6>
+                        <span class="text-secondary small" th:text="${b.bookingCode}">ACP-100001</span>
+                    </div>
+                    <span class="status-pill" th:classappend="'status-' + ${#strings.toLowerCase(b.status)}" th:text="${b.status}">IN PROGRESS</span>
+                </div>
+
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between small text-secondary mb-1">
+                        <span>Progress</span>
+                        <span th:text="${b.progressPercent} + '%'">60%</span>
+                    </div>
+                    <div class="progress-premium"><div class="bar" th:style="'width:' + ${b.progressPercent} + '%'"></div></div>
+                </div>
+
+                <div class="row small text-secondary g-2 mb-3">
+                    <div class="col-6"><i class="fa-solid fa-hashtag me-1"></i><span th:text="${b.vehicleNumber}"></span></div>
+                    <div class="col-6"><i class="fa-solid fa-calendar me-1"></i><span th:text="${b.preferredDate}"></span></div>
+                    <div class="col-6"><i class="fa-solid fa-user-gear me-1"></i>
+                        <span th:text="${b.mechanic != null ? b.mechanic.fullName : 'Awaiting assignment'}"></span>
+                    </div>
+                    <div class="col-6"><i class="fa-solid fa-truck-fast me-1"></i>
+                        <span th:text="${b.pickupRequired ? 'Pickup requested' : 'Drop-off'}"></span>
+                    </div>
+                </div>
+
+                <p class="small text-secondary mb-0" th:if="${b.serviceNotes != null}">
+                    <i class="fa-solid fa-note-sticky me-1"></i><span th:text="${b.serviceNotes}"></span>
+                </p>
+            </div>
+        </div>
+        <div class="col-12" th:if="${#lists.isEmpty(bookings)}">
+            <div class="glass-card text-center py-5">
+                <i class="fa-solid fa-location-crosshairs fs-1 text-secondary mb-3 d-block"></i>
+                <p class="text-secondary mb-0">No active services to track right now.</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

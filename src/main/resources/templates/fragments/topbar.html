@@ -1,0 +1,19 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="topbar(pageTitle)" class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <button id="sidebar-toggle" class="btn btn-outline-glass d-lg-none btn-sm me-2"><i class="fa-solid fa-bars"></i></button>
+        <h3 class="font-display fw-bold d-inline" th:text="${pageTitle}">Dashboard</h3>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+        <div class="position-relative d-none d-md-block">
+            <input type="text" class="form-control form-control-glass" placeholder="Search..." style="width:220px;">
+            <i class="fa-solid fa-magnifying-glass position-absolute" style="right:14px; top:12px; color: var(--text-muted);"></i>
+        </div>
+        <button class="theme-toggle-btn"><i class="fa-solid fa-sun"></i></button>
+        <div class="position-relative">
+            <a th:href="@{/customer/notifications}" class="theme-toggle-btn text-decoration-none">
+                <i class="fa-solid fa-bell"></i>
+            </a>
+        </div>
+        <div sec:authorize="isAuthenticated()" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" class="avatar-circle" th:text="${#authentication.name.substring(0,1).toUpperCase()}">A</div>
+    </div>
+</div>

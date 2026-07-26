@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Manage Bookings')}"></head>
+<body>
+<div th:replace="~{fragments/loading :: loading}"></div>
+<div th:replace="~{fragments/admin-sidebar :: sidebar('bookings')}"></div>
+
+<main class="main-content">
+    <div th:replace="~{fragments/topbar :: topbar('Manage Bookings')}"></div>
+
+    <div class="glass-card mb-4">
+        <form method="get" th:action="@{/admin/bookings}" class="d-flex gap-2 flex-wrap align-items-end">
+            <div>
+                <label class="form-label-premium">Filter by status</label>
+                <select name="status" class="form-select form-select-glass" onchange="this.form.submit()" style="width:220px;">
+                    <option value="">All Statuses</option>
+                    <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="glass-card p-0 overflow-hidden">
+        <table class="table table-borderless mb-0 align-middle">
+            <thead>
+            <tr class="text-secondary small">
+                <th class="ps-4">Booking</th>
+                <th>Customer</th>
+                <th>Vehicle</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Mechanic</th>
+                <th class="pe-4 text-end">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b : ${bookings}">
+                <td class="ps-4" th:text="${b.bookingCode}">ACP-100001</td>
+                <td th:text="${b.ownerName}">Rohan Sharma</td>
+                <td th:text="${b.brand + ' ' + b.model + ' (' + b.vehicleNumber + ')'}">BMW 3 Series</td>
+                <td th:text="${b.vehicleType}">CAR</td>
+                <td><span class="status-pill" th:classappend="'status-' + ${#strings.toLowerCase(b.status)}" th:text="${b.status}">PENDING</span></td>
+                <td th:text="${b.mechanic != null ? b.mechanic.fullName : '—'}">Unassigned</td>
+                <td class="pe-4 text-end">
+                    <div class="dropdown d-inline-block">
+                        <button class="btn btn-sm btn-outline-glass dropdown-toggle" data-bs-toggle="dropdown">Actions</button>
+                        <ul class="dropdown-menu dropdown-menu-end glass-card border-0 p-2">
+                            <li>
+                                <form th:action="@{'/admin/bookings/' + ${b.id} + '/assign'}" method="post" class="d-flex gap-1 p-1">
+                                    <select name="mechanicId" class="form-select form-select-glass form-select-sm" required>
+                                        <option value="">Assign mechanic</option>
+                                        <option th:each="m : ${mechanics}" th:value="${m.id}" th:text="${m.fullName}"></option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-gradient">Go</button>
+                                </form>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li th:each="s : ${statuses}">
+                                <form th:action="@{'/admin/bookings/' + ${b.id} + '/status'}" method="post">
+                                    <input type="hidden" name="status" th:value="${s}">
+                                    <button type="submit" class="dropdown-item small" th:text="'Mark as ' + ${s}"></button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(bookings)}">
+                <td colspan="7" class="text-center text-secondary py-4">No bookings found.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
